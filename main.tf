@@ -18,11 +18,6 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]  # Canonical
 }
 
-resource "aws_key_pair" "key-vpn" {
-  key_name   = "key-vpn"
-  public_key = file("~/.ssh/id_ed25519.pub")
-}
-
 resource "aws_security_group" "allow_all" {
   name_prefix = "allow-all-"
   vpc_id      = data.aws_vpc.default.id
@@ -59,7 +54,6 @@ resource "aws_instance" "app_server" {
   # !!!!!!!!!!!!
   instance_type               = "t2.micro"
 
-  key_name                    = aws_key_pair.key-vpn.key_name
   vpc_security_group_ids      = [aws_security_group.allow_all.id]
   associate_public_ip_address = true
 
@@ -69,6 +63,7 @@ resource "aws_instance" "app_server" {
 
   user_data = <<-EOF
     #!/usr/bin/env bash
+    echo "${file("ssh-keys/ingo.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     echo Hallo
   EOF
 }
