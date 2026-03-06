@@ -11,6 +11,7 @@ wg pubkey < vpn-keys/anna.priv > vpn-keys/anna.pub
 # VPN-Server mieten und starten
 tofu apply
 
-# VPN-Verbindung starten (aber korrektes öffentliches Serverschloss einsetzen)
+# VPN-Verbindung starten (aber korrektes öffentliches Serverschloss einsetzen,
+# dieses kann auf https://ntfy.sh/mischok-citest eingesehen werden)
 sudo bash connect.sh zuacTUd23m1qdhQGdhrPN724LdLlokuIMuY6oTYIMiA= 192.168.0.105 vpn-keys/anna.priv
 ```
