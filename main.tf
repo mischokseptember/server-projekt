@@ -66,12 +66,9 @@ resource "aws_instance" "app_server" {
 
     set -ex
 
-    echo "${file("ssh-keys/andre.pub")}" >> /home/ubuntu/.ssh/authorized_keys
-    echo "${file("ssh-keys/benni.pub")}" >> /home/ubuntu/.ssh/authorized_keys
-    echo "${file("ssh-keys/faruq.pub")}" >> /home/ubuntu/.ssh/authorized_keys
-    echo "${file("ssh-keys/ingo.pub")}" >> /home/ubuntu/.ssh/authorized_keys
-    echo "${file("ssh-keys/savo.pub")}" >> /home/ubuntu/.ssh/authorized_keys
-    echo "${file("ssh-keys/tom.pub")}" >> /home/ubuntu/.ssh/authorized_keys
+    cat >> /home/ubuntu/.ssh/authorized_keys <<KEYS
+    ${join("\n", [for f in fileset("${path.module}/ssh-keys", "*.pub") : file("${path.module}/ssh-keys/${f}")])}
+    KEYS
 
     # Neueste Paketdatenbank holen
     apt update
