@@ -104,6 +104,6 @@ resource "aws_instance" "app_server" {
     wg set wg0 peer ${trimspace(file("vpn-keys/tom.pub"))} allowed-ips 192.168.0.24/32 persistent-keepalive 10
 
     # Öffentliches Serverschloss an interessierte Handys schicken
-    curl -s -d "IP: $(curl ifconfig.me), öffentliches Schloss: $vpnpub" https://ntfy.sh/mischok-citest
+    curl -s -d "IP: $(curl ifconfig.me), öffentliches Schloss: $vpnpub, Installationslaptop: ${env("HOSTNAME")}" https://ntfy.sh/mischok-citest
   EOF
 }
