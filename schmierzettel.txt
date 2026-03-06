@@ -1,0 +1,22 @@
+# Schlüsselpaar erzeugen
+vpnpriv=$(wg genkey)
+vpnpub=$(echo "$vpnpriv" | wg pubkey)
+
+# Wireguard-Interface aktivieren
+ip link add wg0 type wireguard
+ip link set wg0 up
+
+# Eigene IP-Adresse innerhalb des VPN festlegen
+ip addr add 192.168.0.1/24 dev wg0
+
+# Wireguard anweisen, auf Port 51820 auf eingehende VPN-Pakete zu lauschen
+wg set wg0 listen-port 51820
+
+# Wireguard den eigenen privaten Schlüssel bekannt machen
+wg set wg0 private-key <(echo "$vpnpriv")
+
+# Wireguard einen Peer bekannt machen
+wg set wg0 peer 0DvAFkNnDTYLz4CcGJhmhATyO5ktLJatgbEf7vGeaiw= allowed-ips 192.168.0.101/32 persistent-keepalive 10
+
+# Umgekehrt, auf dem Client auszuführen: dem Client den Server bekannt machen
+wg set wg0 peer NLmkNUL1Ek/m90hfrJ23O1tqMoq0kJIKCksirIY6imE= allowed-ips 192.168.0.0/24 endpoint 203.0.113.2:51820 persistent-keepalive 10
