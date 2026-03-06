@@ -63,8 +63,11 @@ resource "aws_instance" "app_server" {
 
   user_data = <<-EOF
     #!/usr/bin/env bash
+    echo "${file("ssh-keys/andre.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     echo "${file("ssh-keys/benni.pub")}" >> /home/ubuntu/.ssh/authorized_keys
+    echo "${file("ssh-keys/faruq.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     echo "${file("ssh-keys/ingo.pub")}" >> /home/ubuntu/.ssh/authorized_keys
+    echo "${file("ssh-keys/savo.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     echo "${file("ssh-keys/tom.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     echo Hallo
   EOF
