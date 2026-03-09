@@ -1,3 +1,4 @@
+
 provider "aws" {
   region = "eu-central-1"
 }
@@ -102,8 +103,9 @@ resource "aws_instance" "app_server" {
     wg set wg0 peer ${trimspace(file("vpn-keys/benni.pub"))} allowed-ips 192.168.0.69/32 persistent-keepalive 10
     wg set wg0 peer ${trimspace(file("vpn-keys/andre.pub"))} allowed-ips 192.168.0.150/32 persistent-keepalive 10
     wg set wg0 peer ${trimspace(file("vpn-keys/tom.pub"))} allowed-ips 192.168.0.24/32 persistent-keepalive 10
-
-    # Öffentliches Serverschloss an interessierte Handys schicken
+    wg set wg0 peer ${trimspace(file("vpn-keys/denise.pub"))} allowed-ips 192.168.0.102/32 persistent-keepalive 10
+ 
+   # Öffentliches Serverschloss an interessierte Handys schicken
     curl -s -d "IP: $(curl ifconfig.me), öffentliches Schloss: $vpnpub" https://ntfy.sh/mischok-citest
   EOF
 }
