@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
     values = ["x86_64"]
   }
 
-  owners = ["099720109477"]  # Canonical
+  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_security_group" "allow_all" {
@@ -45,7 +45,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_instance" "app_server" {
-  ami                         = data.aws_ami.ubuntu.id
+  ami = data.aws_ami.ubuntu.id
 
   # Mit der folgenden Zeile wird das Servermodell ausgewählt.
   # t2.micro kostet wenige Cent pro Stunde.
@@ -53,7 +53,7 @@ resource "aws_instance" "app_server" {
   # Bitte auf t2.micro lassen.
   # Läuft auf Ingos private Kreditkarte.
   # !!!!!!!!!!!!
-  instance_type               = "t2.micro"
+  instance_type = "t2.micro"
 
   vpc_security_group_ids      = [aws_security_group.allow_all.id]
   associate_public_ip_address = true
@@ -105,7 +105,7 @@ resource "aws_instance" "app_server" {
     wg set wg0 peer ${trimspace(file("vpn-keys/tom.pub"))} allowed-ips 192.168.0.24/32 persistent-keepalive 10
     wg set wg0 peer ${trimspace(file("vpn-keys/denise.pub"))} allowed-ips 192.168.0.102/32 persistent-keepalive 10
  
-   # Öffentliches Serverschloss an interessierte Handys schicken
+    # Öffentliches Serverschloss an interessierte Handys schicken
     curl -s -d "IP: $(curl ifconfig.me), öffentliches Schloss: $vpnpub" https://ntfy.sh/mischok-citest
   EOF
 }
