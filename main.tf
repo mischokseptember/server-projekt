@@ -110,11 +110,14 @@ wg set wg0 peer ${trimspace(file("vpn-keys/denise.pub"))} allowed-ips 192.168.0.
 # Öffentliches Serverschloss an interessierte Handys schicken
 curl -s -d "IP: $(curl ifconfig.me), öffentliches Schloss: $vpnpub" https://ntfy.sh/mischok-citest
 
-# nginx installieren
-apt install -y nginx
+# nginx in einem Docker-Container installieren
+apt install -y docker.io docker-compose
 
 # Befehl, um den HTML-Quelltext herunterzuladen
-git clone https://github.com/mischokseptember/server-projekt.git /tmp/server-projekt
-cp -vr /tmp/server-projekt/websiteinhalt/* /var/www/html/
+git clone https://github.com/mischokseptember/server-projekt.git server-projekt
+cp -vr server-projekt/websiteinhalt/* /var/www/html/
+
+cd server-projekt
+docker-compose up -d
 EOF
 }
