@@ -115,6 +115,7 @@ apt install -y docker.io docker-compose
 
 # Befehl, um den HTML-Quelltext herunterzuladen
 git clone https://github.com/mischokseptember/server-projekt.git server-projekt
+mkdir -p /var/www/html
 cp -vr server-projekt/websiteinhalt/* /var/www/html/
 
 cd server-projekt
